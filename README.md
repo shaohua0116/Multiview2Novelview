@@ -1,4 +1,4 @@
-# Multi-view to Novel view:Synthesizing novel views with Self-Learned Confidence 
+# Multi-view to Novel view: <br/>Synthesizing novel views with Self-Learned Confidence 
 
 ## Descriptions
 This project is a TensorFlow implementation of [**Multi-view to Novel view:Synthesizing novel views with Self-Learned Confidence**](https://shaohua0116.github.io/Multiview2Novelview/), which is published in ECCV 2018. We provide codes, datasets, and checkpoints. 
@@ -6,10 +6,10 @@ This project is a TensorFlow implementation of [**Multi-view to Novel view:Synth
 In this work, we address the task of **multi-view novel view synthesis**, where we are interested in synthesizing a target image with an arbitrary camera pose from given source images. We propose an end-to-end trainable framework that learns to exploit multiple viewpoints to synthesize a novel view without any 3D supervision. Specifically, our model consists of a **flow prediction module** (*flow predictor)* and a **pixel generation module** (*recurrent pixel generator*) to directly leverage information presented in source views as well as hallucinate missing pixels from statistical priors. To merge the predictions produced by the two modules given multi-view source images, we introduce a **self-learned confidence aggregation mechanism**. An illustration of the proposed framework is as follows.
 
 <p align="center">
-    <img src="https://shaohua0116.github.io/Multiview2Novelview/img/model.jpg" height="256"/>
+    <img src="https://shaohua0116.github.io/Multiview2Novelview/img/model.jpg" height="320"/>
 </p>
 
-We evaluate our model on images rendered from 3D object models ([Shapenet](https://www.shapenet.org/)) as well as real and synthesized scenes ([KITTI](http://www.cvlibs.net/datasets/kitti/) and [Synthia](http://synthia-dataset.net/)). We demonstrate that our model is able to achieve state-of-the-art results as well as progressively improve its predictions when more source images are available.
+We evaluate our model on images rendered from 3D object models ([ShapeNet](https://www.shapenet.org/)) as well as real and synthesized scenes ([KITTI](http://www.cvlibs.net/datasets/kitti/) and [Synthia](http://synthia-dataset.net/)). We demonstrate that our model is able to achieve state-of-the-art results as well as progressively improve its predictions when more source images are available.
 
 \*This code is still being developed and subject to change.
 
@@ -27,7 +27,7 @@ We evaluate our model on images rendered from 3D object models ([Shapenet](https
 
 ## Datasets
 
-### [Shapenet](https://www.shapenet.org/)
+### [ShapeNet](https://www.shapenet.org/)
 
 ### [KITTI](http://www.cvlibs.net/datasets/kitti/)
 
@@ -46,6 +46,24 @@ $ python evaler.py
 ```
 
 ## Results
+
+### ShapeNet Cars
+<p align="center">
+    <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/car.jpg" height="320"/>
+</p>
+More results for ShapeNet cars: [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) (1k randomly samlped results from all 10k testing data)
+
+### ShapeNet Chairs
+<p align="center">
+    <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/chair.jpg" height="320"/>
+</p>
+More results for ShapeNet cars: [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) (1k randomly samlped results from all 10k testing data)
+
+### Scenes: KTIIT and Synthia
+<p align="center">
+    <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/scene.jpg" height="320"/>
+</p>
+
 
 ## Checkpoints
 We provide checkpoints and evaluation report files of our models for all experiments.
