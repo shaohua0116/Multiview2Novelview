@@ -51,13 +51,13 @@ $ python evaler.py
 <p align="center">
     <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/car.jpg" width="640"/>
 </p>
-More results for ShapeNet cars: [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) (1k randomly samlped results from all 10k testing data)
+More results for ShapeNet cars (1k randomly samlped results from all 10k testing data): [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html)
 
 ### ShapeNet Chairs
 <p align="center">
     <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/chair.jpg" width="640"/>
 </p>
-More results for ShapeNet cars: [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) (1k randomly samlped results from all 10k testing data)
+More results for ShapeNet cars (1k randomly samlped results from all 10k testing data): [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html)
 
 ### Scenes: KTIIT and Synthia
 <p align="center">
