@@ -1,4 +1,4 @@
-# VoxelGAN-TensorFlow
+# Multi-view to Novel view:Synthesizing novel views with Self-Learned Confidence 
 
 ## Descriptions
 This project is a TensorFlow implementation of [**Multi-view to Novel view:Synthesizing novel views with Self-Learned Confidence**](https://shaohua0116.github.io/Multiview2Novelview/), which is published in ECCV 2018. We provide codes, datasets, and checkpoints. 
@@ -62,12 +62,14 @@ We provide checkpoints and evaluation report files of our models for all experim
 
 ## Cite the paper
 If you find this useful, please cite
+```
 @inproceedings{sun2016multiview,
   title={Multi-view to Novel view: Synthesizing Views via Self-Learned Confidence},
   author={Sun, Shao-Hua and Huh, Minyoung and Liao, Yuan-Hong and Zhang, Ning and Lim, Joseph J},
   booktitle={European conference on computer vision},
   year={2018},
 }
+```
 
 ## Authors
 [Shao-Hua Sun](http://shaohua0116.github.io/), [Minyoung Huh](http://minyounghuh.com/), [Yuan-Hong Liao](https://andrewliao11.github.io/), [Ning Zhang](https://people.eecs.berkeley.edu/~nzhang/), and [Joseph J. Lim](http://www-bcf.usc.edu/~limjj/)
