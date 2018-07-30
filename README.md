@@ -1,4 +1,4 @@
-# Multi-view to Novel view: <br/>Synthesizing novel views with Self-Learned Confidence 
+# Multi-view to Novel view: <br/>Synthesizing Novel Views with Self-Learned Confidence 
 
 ## Descriptions
 This project is a TensorFlow implementation of [**Multi-view to Novel view: Synthesizing novel views with Self-Learned Confidence**](https://shaohua0116.github.io/Multiview2Novelview/), which is published in ECCV 2018. We provide codes, datasets, and checkpoints. 
@@ -30,8 +30,14 @@ We evaluate our model on images rendered from 3D object models ([ShapeNet](https
 ### ShapeNet
 
 ### KITTI
+<p align="center">
+    <img src="./asset/kitti_example.gif" width="800"/>
+</p>
 
 ### Synthia
+<p align="center">
+    <img src="./asset/synthia_example.gif" width="800"/>
+</p>
 
 ## Usage
 
