@@ -26,18 +26,25 @@ We evaluate our model on images rendered from 3D object models ([ShapeNet](https
 - [Pillow](https://pillow.readthedocs.io/en/latest/installation.html#basic-installation)
 
 ## Datasets
+All datasets are stored as HDF5 files, and the links are as follows. Each data point (HDF5 group) contains an image and its camera pose.
 
 ### ShapeNet
+<p align="center">
+    <img src="./asset/shapenet_example.gif" width="800"/>
+</p>
+Download from the links ([car](https://drive.google.com/open?id=1vrZURHH5irKrxPFuw6e9mZ3wh2RqzFC9) and [chair](https://drive.google.com/open?id=1-IbmdJqi37JozGuDJ42IzOFG_ZNAksni)) and put the file to this directory `./datasets/shapenet`.
 
 ### KITTI
 <p align="center">
     <img src="./asset/kitti_example.gif" width="800"/>
 </p>
+Download from this [link](https://drive.google.com/open?id=1LT3WoHxdCycu4jTxCGc1vGYpdRWridFH) and put the file to this directory `./datasets/kitti`.
 
 ### Synthia
 <p align="center">
     <img src="./asset/synthia_example.gif" width="800"/>
 </p>
+Download from this [link](https://drive.google.com/open?id=1Fxv5r7oeG0PHgR42S5pHNvyl2pJN739H) and put the file to this directory `./datasets/synthia`.
 
 ## Usage
 
