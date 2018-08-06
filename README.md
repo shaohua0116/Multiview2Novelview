@@ -13,7 +13,6 @@ We evaluate our model on images rendered from 3D object models ([ShapeNet](https
 
 \*This code is still being developed and subject to change.
 
-
 ## Prerequisites
 
 - Python 2.7
@@ -26,12 +25,14 @@ We evaluate our model on images rendered from 3D object models ([ShapeNet](https
 - [Pillow](https://pillow.readthedocs.io/en/latest/installation.html#basic-installation)
 
 ## Datasets
+
 All datasets are stored as HDF5 files, and the links are as follows. Each data point (HDF5 group) contains an image and its camera pose.
 
 ### ShapeNet
 <p align="center">
     <img src="./asset/shapenet_example.gif" width="800"/>
 </p>
+
 - Download from
     - [car](https://drive.google.com/open?id=1vrZURHH5irKrxPFuw6e9mZ3wh2RqzFC9) (150GB) 
     - [chair](https://drive.google.com/open?id=1-IbmdJqi37JozGuDJ42IzOFG_ZNAksni) (14GB) 
@@ -41,6 +42,7 @@ All datasets are stored as HDF5 files, and the links are as follows. Each data p
 <p align="center">
     <img src="./asset/kitti_example.gif" width="800"/>
 </p>
+
 - Download from [here](https://drive.google.com/open?id=1LT3WoHxdCycu4jTxCGc1vGYpdRWridFH) (4.3GB) 
 - Put the file to this directory `./datasets/kitti`.
 
@@ -48,6 +50,7 @@ All datasets are stored as HDF5 files, and the links are as follows. Each data p
 <p align="center">
     <img src="./asset/synthia_example.gif" width="800"/>
 </p>
+
 - Download from [here](https://drive.google.com/open?id=1Fxv5r7oeG0PHgR42S5pHNvyl2pJN739H) (3.3GB) 
 - Put the file to this directory `./datasets/synthia`.
 
@@ -125,12 +128,14 @@ $ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_tes
 <p align="center">
     <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/car.jpg" width="640"/>
 </p>
+
 [More results](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) for ShapeNet cars (1k randomly samlped results from all 10k testing data)
 
 ### ShapeNet Chairs
 <p align="center">
     <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/chair.jpg" width="640"/>
 </p>
+
 [More results](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) for ShapeNet cars (1k randomly samlped results from all 10k testing data)
 
 ### Scenes: KTIIT and Synthia
