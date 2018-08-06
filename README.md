@@ -52,6 +52,12 @@ Download from this [link](https://drive.google.com/open?id=1Fxv5r7oeG0PHgR42S5pH
 ```bash
 $ python trainer.py 
 ```
+### Interpret TensorBoard
+Launch Tensorboard and go to the specified port, you can see differernt losses in the **scalars** tab and plotted images in the **images** tab. The plotted images could be interpreted as follows.
+
+<p align="center">
+    <img src="./asset/TB.jpg" width="1024"/>
+</p>
 
 ### Test
 ```bash
