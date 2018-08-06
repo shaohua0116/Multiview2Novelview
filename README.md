@@ -32,19 +32,24 @@ All datasets are stored as HDF5 files, and the links are as follows. Each data p
 <p align="center">
     <img src="./asset/shapenet_example.gif" width="800"/>
 </p>
-Download from the links ([car](https://drive.google.com/open?id=1vrZURHH5irKrxPFuw6e9mZ3wh2RqzFC9) and [chair](https://drive.google.com/open?id=1-IbmdJqi37JozGuDJ42IzOFG_ZNAksni)) and put the file to this directory `./datasets/shapenet`.
+- Download from
+    - [car](https://drive.google.com/open?id=1vrZURHH5irKrxPFuw6e9mZ3wh2RqzFC9) (150GB) 
+    - [chair](https://drive.google.com/open?id=1-IbmdJqi37JozGuDJ42IzOFG_ZNAksni) (14GB) 
+- Put the file to this directory `./datasets/shapenet`.
 
 ### KITTI
 <p align="center">
     <img src="./asset/kitti_example.gif" width="800"/>
 </p>
-Download from this [link](https://drive.google.com/open?id=1LT3WoHxdCycu4jTxCGc1vGYpdRWridFH) and put the file to this directory `./datasets/kitti`.
+- Download from [here](https://drive.google.com/open?id=1LT3WoHxdCycu4jTxCGc1vGYpdRWridFH) (4.3GB) 
+- Put the file to this directory `./datasets/kitti`.
 
 ### Synthia
 <p align="center">
     <img src="./asset/synthia_example.gif" width="800"/>
 </p>
-Download from this [link](https://drive.google.com/open?id=1Fxv5r7oeG0PHgR42S5pHNvyl2pJN739H) and put the file to this directory `./datasets/synthia`.
+- Download from [here](https://drive.google.com/open?id=1Fxv5r7oeG0PHgR42S5pHNvyl2pJN739H) (3.3GB) 
+- Put the file to this directory `./datasets/synthia`.
 
 ## Usage
 After downloading the datasets, we can start to train models with the following command:
@@ -54,7 +59,7 @@ $ python trainer.py  --batch_size 8 --dataset car --num_input 4
 ```
 - Arguments
     - --prefix: a nickname for the training
-    - --dataset: choose among `car`, `chair`, `kitti`, and 'synthia`. You can also add your own datasets.
+    - --dataset: choose among `car`, `chair`, `kitti`, and `synthia`. You can also add your own datasets.
     - Checkpoints: specify the path to a pre-trained checkpoint
         - --checkpoint: load all the parameters including the flow and pixel modules and the discriminator.
         - --checkpoint\_p: load only the parameters of the pixel module
@@ -104,7 +109,7 @@ $ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_tes
 ```
 - Arguments
     - Id list
-        - --data_id_list: specify a list of data point that you want to evaluate (ex. `./testing_tuple_lists/id_car_test.txt`)
+        - --data_id_list: specify a list of data point that you want to evaluate
     - Task
         - --loss: report the loss
         - --plot_image: rendered predicted images
@@ -120,13 +125,13 @@ $ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_tes
 <p align="center">
     <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/car.jpg" width="640"/>
 </p>
-More results for ShapeNet cars (1k randomly samlped results from all 10k testing data): [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html)
+[More results](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) for ShapeNet cars (1k randomly samlped results from all 10k testing data)
 
 ### ShapeNet Chairs
 <p align="center">
     <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/chair.jpg" width="640"/>
 </p>
-More results for ShapeNet cars (1k randomly samlped results from all 10k testing data): [link](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html)
+[More results](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) for ShapeNet cars (1k randomly samlped results from all 10k testing data)
 
 ### Scenes: KTIIT and Synthia
 <p align="center">
@@ -135,10 +140,10 @@ More results for ShapeNet cars (1k randomly samlped results from all 10k testing
 
 ## Checkpoints
 We provide checkpoints and evaluation report files of our models for all experiments.
-- ShapeNet Cars
-- ShapeNet Chairs
-- KITTI
-- Synthia
+- [ShapeNet Cars](https://drive.google.com/drive/folders/1speUFwZsKBbXTmuD-vvckkYsbbakTU0E?usp=sharing)
+- [ShapeNet Chairs](https://drive.google.com/drive/folders/1M7jZxWd91BiiqP9KchAvkMy_jdeVjoeO?usp=sharing)
+- [KITTI](https://drive.google.com/drive/folders/1hg9J1PAj2shICEra7IWRTjl3Ud4D9aX7?usp=sharing)
+- [Synthia](https://drive.google.com/drive/folders/1AuU0DP8IqrOfRQlooimuvorM2g1QM2Iz?usp=sharing)
 
 ## Related work
 - [Multi-view 3D Models from Single Images with a Convolutional Network](https://arxiv.org/abs/1511.06702) in CVPR 2016
