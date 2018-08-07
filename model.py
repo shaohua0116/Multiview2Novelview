@@ -82,6 +82,8 @@ class Model(object):
         num_res_block_pixel = self.num_res_block_pixel
         num_prior = self.n_dim - 1
         num_scale = self.num_scale
+        # compare with baselines
+        rescale = 1 if self.dataset_type == 'scene' else 1.5
 
         def Pose_Encoder(input_pose, target_pose, scope='Pose_Encoder', reuse=False):
             with tf.variable_scope(scope) as scope:
@@ -543,7 +545,7 @@ class Model(object):
                         ssim = tf_ssim((output_list[i]+1)/2,
                                        (target_image+1)/2, mean_metric=False)
                     report_loss = tf.reduce_mean(
-                        tf.abs(output_list[i] - target_image))/2*3  # rescale the range of pixel values
+                        tf.abs(output_list[i] - target_image))*rescale
                     report_ssim = tf.reduce_mean(ssim)
                     self.eval_loss['{}_report_loss_{}'.format(loss_name, i)] = report_loss
                     self.eval_loss['{}_report_ssim_{}'.format(loss_name, i)] = report_ssim
@@ -613,7 +615,7 @@ class Model(object):
         all_output_stack = tf.stack(
             [v for v in pixel_final_output_list+flow_final_output_list], axis=-1)
         all_output_stack_loss = tf.reduce_mean(tf.abs(
-            all_output_stack - tf.expand_dims(target_image, axis=-1)), axis=[1, 2, 3])/2*3
+            all_output_stack - tf.expand_dims(target_image, axis=-1)), axis=[1, 2, 3])*rescale
         all_output_stack_loss_min = tf.reduce_mean(
             tf.reduce_min(all_output_stack_loss, axis=-1))
         all_output_stack_ssim = []

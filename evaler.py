@@ -236,15 +236,29 @@ def main():
     parser.add_argument('--dataset', type=str, default='car', choices=[
         'car', 'chair', 'kitti', 'synthia'])
     parser.add_argument('--num_input', type=int, default=2)
-    parser.add_argument('--output_dir', type=str)
     # checkpoint
-    parser.add_argument('--train_dir', type=str, default=None)
-    parser.add_argument('--checkpoint', type=str, default=None)
-    parser.add_argument('--max_steps', type=int, default=500)
-    parser.add_argument('--data_id_list', type=str, default=None)
+    parser.add_argument('--train_dir', type=str, default=None,
+                        help='load the latest checkpoint from a directory')
+    parser.add_argument('--checkpoint', type=str, default=None,
+                        help='specify a checkpoint')
+    parser.add_argument('--max_steps', type=int, default=500,
+                        help='max steps of randomly sampling testing tuple.'
+                             'do not need to specify this when a data list is given')
+    parser.add_argument('--data_id_list', type=str, default=None,
+                        help='specify a list of data point that you want to evaluate')
     # task type
-    parser.add_argument('--loss', action='store_true', default=False)
-    parser.add_argument('--plot_image', action='store_true', default=False)
+    parser.add_argument('--loss', action='store_true', default=False,
+                        help='report the loss')
+    parser.add_argument('--write_summary', action='store_true', default=False,
+                        help='write the summary of this evaluation as a text file')
+    parser.add_argument('--plot_image', action='store_true', default=False,
+                        help='rendered predicted images')
+    # write summary file
+    parser.add_argument('--quiet', action='store_true', default=False)
+    parser.add_argument('--summary_file', type=str, default='report.txt',
+                        help='the path to the summary file')
+    parser.add_argument('--output_dir', type=str,
+                        help='the output directory of plotted images')
     # Learning
     parser.add_argument('--local_confidence_weight', type=float, default=1e-2)
     # Architecture
@@ -262,10 +276,6 @@ def main():
     parser.add_argument('--num_scale', type=int, default=1)
     parser.add_argument('--moving_weight', type=str, default='uniform',
                         choices=['uniform', 'shift', 'step'])
-    # write summary file
-    parser.add_argument('--quiet', action='store_true', default=False)
-    parser.add_argument('--write_summary', action='store_true', default=False)
-    parser.add_argument('--summary_file', type=str, default='report.txt')
     config = parser.parse_args()
 
     if config.dataset == 'car':

@@ -25,8 +25,8 @@ class Trainer(object):
         self.config = config
         hyper_parameter_str = 'bs_{}_lr_flow_{}_pixel_{}_d_{}'.format(
             config.batch_size,
-            config.learning_rate_flow,
-            config.learning_rate_pixel,
+            config.learning_rate_f,
+            config.learning_rate_p,
             config.learning_rate_d,
         )
 
@@ -54,8 +54,8 @@ class Trainer(object):
 
         # --- optimizer ---
         self.global_step = tf.contrib.framework.get_or_create_global_step(graph=None)
-        self.learning_rate_pixel = config.learning_rate_pixel
-        self.learning_rate_flow = config.learning_rate_flow
+        self.learning_rate_p = config.learning_rate_p
+        self.learning_rate_f = config.learning_rate_f
         self.learning_rate_d = config.learning_rate_d
 
         self.check_op = tf.no_op()
@@ -79,19 +79,19 @@ class Trainer(object):
         g_var = p_var + f_var
 
         self.f_optimizer = tf.train.AdamOptimizer(
-            self.learning_rate_flow,
+            self.learning_rate_f,
             beta1=0.1
         ).minimize(self.model.flow_loss,
                    var_list=f_var, name='optimizer_flow_loss')
 
         self.p_optimizer = tf.train.AdamOptimizer(
-            self.learning_rate_pixel,
+            self.learning_rate_p,
             beta1=0.1
         ).minimize(self.model.pixel_loss, global_step=self.global_step,
                    var_list=p_var, name='optimizer_pixel_loss')
 
         self.p_optimizer_gan = tf.train.AdamOptimizer(
-            self.learning_rate_pixel,
+            self.learning_rate_p,
             beta1=0.1
         ).minimize(self.model.pixel_loss_gan, global_step=self.global_step,
                    var_list=p_var, name='optimizer_pixel_loss_gan')
@@ -280,44 +280,81 @@ class Trainer(object):
 def main():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--batch_size', type=int, default=8)
-    parser.add_argument('--prefix', type=str, default='default')
+    parser.add_argument('--batch_size', type=int, default=8,
+                        help='the mini-batch size')
+    parser.add_argument('--prefix', type=str, default='default',
+                        help='a nickname for the training')
     parser.add_argument('--dataset', type=str, default='car', choices=[
-        'car', 'chair', 'kitti', 'synthia'])
-    parser.add_argument('--num_input', type=int, default=2)
-    parser.add_argument('--checkpoint', type=str, default=None)
-    parser.add_argument('--checkpoint_p', type=str, default=None)
-    parser.add_argument('--checkpoint_f', type=str, default=None)
-    parser.add_argument('--checkpoint_g', type=str, default=None)
-    parser.add_argument('--checkpoint_d', type=str, default=None)
+        'car', 'chair', 'kitti', 'synthia'],
+        help='you can add your own dataset here')
+    parser.add_argument('--num_input', type=int, default=2,
+                        help='the number of source images')
+    parser.add_argument('--checkpoint', type=str, default=None,
+                        help='load all the parameters including the flow and '
+                             'pixel modules and the discriminator')
+    parser.add_argument('--checkpoint_p', type=str, default=None,
+                        help='load the parameters of the pixel module')
+    parser.add_argument('--checkpoint_f', type=str, default=None,
+                        help='load the parameters of the flow module')
+    parser.add_argument('--checkpoint_g', type=str, default=None,
+                        help='load the parameters of both the flow and pixel module')
+    parser.add_argument('--checkpoint_d', type=str, default=None,
+                        help='load the parameters of the discriminator')
     # Log
-    parser.add_argument('--log_step', type=int, default=10)
-    parser.add_argument('--ckpt_save_step', type=int, default=5000)
-    parser.add_argument('--test_sample_step', type=int, default=100)
-    parser.add_argument('--write_summary_step', type=int, default=100)
+    parser.add_argument('--log_step', type=int, default=10,
+                        help='the frequency of outputing log info')
+    parser.add_argument('--ckpt_save_step', type=int, default=5000,
+                        help='the frequency of saving a checkpoint')
+    parser.add_argument('--test_sample_step', type=int, default=100,
+                        help='the frequency of performing testing inference during training')
+    parser.add_argument('--write_summary_step', type=int, default=100,
+                        help='the frequency of writing TensorBoard summaries')
     # Learning
-    parser.add_argument('--max_steps', type=int, default=10000000)
-    parser.add_argument('--learning_rate_pixel', type=float, default=5e-5)
-    parser.add_argument('--learning_rate_flow', type=float, default=1e-4)
-    parser.add_argument('--learning_rate_d', type=float, default=1e-4)
-    parser.add_argument('--local_confidence_weight', type=int, default=1e-2)
+    parser.add_argument('--max_steps', type=int, default=10000000,
+                        help='the max training iterations')
+    parser.add_argument('--learning_rate_p', type=float, default=5e-5,
+                        help='the learning rate of the pixel module')
+    parser.add_argument('--learning_rate_f', type=float, default=1e-4,
+                        help='the learning rate of the flow module')
+    parser.add_argument('--learning_rate_d', type=float, default=1e-4,
+                        help='the learning rate of the discriminator')
+    parser.add_argument('--local_confidence_weight', type=int, default=1e-2,
+                        help='the weight of the confidence prediction objective')
     # Architecture
-    parser.add_argument('--num_res_block_pixel', type=int, default=0)
-    parser.add_argument('--num_res_block_flow', type=int, default=4)
-    parser.add_argument('--num_dis_conv_layer', type=int, default=5)
-    parser.add_argument('--num_conv_layer', type=int, default=5)
-    parser.add_argument('--num_convlstm_block', type=int, default=2)
-    parser.add_argument('--num_convlstm_scale', type=int, default=3)
+    parser.add_argument('--num_res_block_pixel', type=int, default=0,
+                        help='the number of residual block in the bottleneck of the pixel module')
+    parser.add_argument('--num_res_block_flow', type=int, default=4,
+                        help='the number of residual block in the bottleneck of the flow module')
+    parser.add_argument('--num_dis_conv_layer', type=int, default=5,
+                        help='the number of convolutional layers of the discriminator')
+    parser.add_argument('--num_conv_layer', type=int, default=5,
+                        help='the number of convolutional layers of '
+                             'the encoder of both the flow and pixel modules')
+    parser.add_argument('--num_convlstm_block', type=int, default=2,
+                        help='the number of residual ConvLSTM block of the pixel module')
+    parser.add_argument('--num_convlstm_scale', type=int, default=3,
+                        help='how many innermost layers of the pixel module '
+                             'have a residual ConvLSTM connection')
     parser.add_argument('--norm_type', type=str, default='None',
-                        choices=['batch', 'instance', 'None'])
+                        choices=['batch', 'instance', 'None'],
+                        help='the type of normalization')
     # GAN
-    parser.add_argument('--gan_type', type=str, default='ls', choices=['ls', 'normal'])
-    parser.add_argument('--gan_start_step', type=int, default=5e5)
-    parser.add_argument('--update_rate', type=int, default=1)
-    # Multi-scale prediction
-    parser.add_argument('--num_scale', type=int, default=1)
+    parser.add_argument('--gan_type', type=str, default='ls', choices=['ls', 'normal'],
+                        help='the type of GAN losses such as LS-GAN, WGAN, etc')
+    parser.add_argument('--gan_start_step', type=int, default=5e5,
+                        help='start to optimize the GAN loss when the model is stable')
+    parser.add_argument('--update_rate', type=int, default=1,
+                        help='update G more frequently than D')
+    # Multi-scale prediction: this is not reporeted in the paper
+    # The main idea is to imporve the flow module by training it to start from
+    # predict a coarser flow fields (similar to progressive learning GAN
+    # proposed by Karras et al. ICLR 2017)
+    parser.add_argument('--num_scale', type=int, default=1,
+                        help='the number of multi-scale flow prediction '
+                             '(1 means without multi-scale prediction)')
     parser.add_argument('--moving_weight', type=str, default='uniform',
-                        choices=['uniform', 'shift', 'step'])
+                        choices=['uniform', 'shift', 'step'],
+                        help='gradually learn each scale from coarse to fine')
     config = parser.parse_args()
 
     if config.dataset == 'car':
