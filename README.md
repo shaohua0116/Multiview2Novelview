@@ -98,7 +98,7 @@ $ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_tes
     - Output
         - --quiet: only display the final report
         - --write_summary: write the summary of this evaluation as a text file
-        - --summary_file: the path to the summary filw
+        - --summary_file: the path to the summary file
         - --output_dir: the output dir of plotted images
 
 ## Result
@@ -117,7 +117,7 @@ $ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_tes
 
 [More results](https://shaohua0116.github.io/Multiview2Novelview/results/car_sampled/car_results_1k.html) for ShapeNet cars (1k randomly samlped results from all 10k testing data)
 
-### Scenes: KTIIT and Synthia
+### Scenes: KITTI and Synthia
 <p align="center">
     <img src="https://shaohua0116.github.io/Multiview2Novelview/img/results/scene.jpg" width="640"/>
 </p>
