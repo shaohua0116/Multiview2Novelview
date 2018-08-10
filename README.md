@@ -1,7 +1,7 @@
 # Multi-view to Novel view: <br/>Synthesizing Novel Views with Self-Learned Confidence 
 
 ## Descriptions
-This project is a TensorFlow implementation of [**Multi-view to Novel view: Synthesizing novel views with Self-Learned Confidence**](https://shaohua0116.github.io/Multiview2Novelview/), which is published in ECCV 2018. We provide codes, datasets, and checkpoints. 
+This project is a TensorFlow implementation of [**Multi-view to Novel view: Synthesizing novel views with Self-Learned Confidence**](https://shaohua0116.github.io/Multiview2Novelview/), which is published in ECCV 2018. We provide codes, [datasets](https://github.com/shaohua0116/Multiview2Novelview#datasets), and [checkpoints](https://github.com/shaohua0116/Multiview2Novelview#checkpoints). 
 
 In this work, we address the task of **multi-view novel view synthesis**, where we are interested in synthesizing a target image with an arbitrary camera pose from given source images. We propose an end-to-end trainable framework that learns to exploit multiple viewpoints to synthesize a novel view without any 3D supervision. Specifically, our model consists of a **flow prediction module** (*flow predictor)* and a **pixel generation module** (*recurrent pixel generator*) to directly leverage information presented in source views as well as hallucinate missing pixels from statistical priors. To merge the predictions produced by the two modules given multi-view source images, we introduce a **self-learned confidence aggregation mechanism**. An illustration of the proposed framework is as follows.
 
@@ -17,12 +17,11 @@ We evaluate our model on images rendered from 3D object models ([ShapeNet](https
 
 - Python 2.7
 - [Tensorflow 1.3.0](https://github.com/tensorflow/tensorflow/tree/r1.0)
-- [SciPy](http://www.scipy.org/install.html)
 - [NumPy](http://www.numpy.org/)
 - [colorlog](https://pypi.python.org/pypi/colorlog)
-- [cv2](https://pypi.python.org/pypi/opencv-python)
 - [h5py](http://docs.h5py.org/en/latest/build.html#install)
-- [Pillow](https://pillow.readthedocs.io/en/latest/installation.html#basic-installation)
+- [imageio](https://pypi.org/project/imageio/)
+- [six](https://pypi.org/project/six/)
 
 ## Datasets
 
