@@ -199,17 +199,9 @@ class Trainer(object):
 
             if s % ckpt_save_step == 0:
                 log.infov("Saved checkpoint at %d", s)
-                save_path = self.saver.save(self.session,
-                                            os.path.join(self.train_dir, 'model'),
-                                            global_step=step)
-
-            """
-            if s % output_save_step == 0:
-                log.infov("Saved outputs at %d", s)
-                f = h5py.File(self.train_dir + '/output_'+str(s)+'.hy')
-                f['output'] = output
-                f.close()
-            """
+                save_path = self.saver.save(
+                    self.session, os.path.join(self.train_dir, 'model'),
+                    global_step=step)
 
     def run_single_step(self, batch, step=None, opt_gan=False, is_train=True):
         _start_time = time.time()
