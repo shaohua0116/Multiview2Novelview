@@ -137,7 +137,7 @@ We provide checkpoints and evaluation report files of our models for all experim
 ## Cite the paper
 If you find this useful, please cite
 ```
-@inproceedings{sun2016multiview,
+@inproceedings{sun2018multiview,
   title={Multi-view to Novel view: Synthesizing Views via Self-Learned Confidence},
   author={Sun, Shao-Hua and Huh, Minyoung and Liao, Yuan-Hong and Zhang, Ning and Lim, Joseph J},
   booktitle={European conference on computer vision},
