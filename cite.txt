@@ -1,5 +1,5 @@
 @inproceedings{sun2018multiview,
-  title={Multi-view to Novel view: Synthesizing Views via Self-Learned Confidence},
+  title={Multi-view to Novel View: Synthesizing Views via Self-Learned Confidence},
   author={Sun, Shao-Hua and Huh, Minyoung and Liao, Yuan-Hong and Zhang, Ning and Lim, Joseph J},
   booktitle={European conference on computer vision},
   year={2018},
