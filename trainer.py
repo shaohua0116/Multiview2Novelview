@@ -80,19 +80,17 @@ class Trainer(object):
 
         self.f_optimizer = tf.train.AdamOptimizer(
             self.learning_rate_f,
-            beta1=0.1
         ).minimize(self.model.flow_loss,
                    var_list=f_var, name='optimizer_flow_loss')
 
         self.p_optimizer = tf.train.AdamOptimizer(
             self.learning_rate_p,
-            beta1=0.1
         ).minimize(self.model.pixel_loss, global_step=self.global_step,
                    var_list=p_var, name='optimizer_pixel_loss')
 
         self.p_optimizer_gan = tf.train.AdamOptimizer(
             self.learning_rate_p,
-            beta1=0.1
+            beta1=0.5
         ).minimize(self.model.pixel_loss_gan, global_step=self.global_step,
                    var_list=p_var, name='optimizer_pixel_loss_gan')
 
