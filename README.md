@@ -128,7 +128,7 @@ $ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_tes
 </p>
 
 ## Checkpoints
-We provide checkpoints and evaluation report files of our models for all experiments.
+We provide checkpoints and evaluation report files of our models for all eooxperiments.
 - [ShapeNet Cars](https://drive.google.com/drive/folders/1speUFwZsKBbXTmuD-vvckkYsbbakTU0E?usp=sharing)
 - [ShapeNet Chairs](https://drive.google.com/drive/folders/1M7jZxWd91BiiqP9KchAvkMy_jdeVjoeO?usp=sharing)
 - [KITTI](https://drive.google.com/drive/folders/1hg9J1PAj2shICEra7IWRTjl3Ud4D9aX7?usp=sharing)
@@ -147,11 +147,12 @@ We provide checkpoints and evaluation report files of our models for all experim
 If you find this useful, please cite
 ```
 @inproceedings{sun2018multiview,
-  title={Multi-view to Novel view: Synthesizing Views via Self-Learned Confidence},
+  title={Multi-view to Novel View: Synthesizing Novel Views via Self-Learned Confidence},
   author={Sun, Shao-Hua and Huh, Minyoung and Liao, Yuan-Hong and Zhang, Ning and Lim, Joseph J},
-  booktitle={European conference on computer vision},
+  booktitle={European Conference on Computer Vision},
   year={2018},
 }
+
 ```
 
 ## Authors
