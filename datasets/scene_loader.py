@@ -8,15 +8,13 @@ import h5py
 
 from util import log
 
-__PATH__ = './datasets/synthia'
 num_digit = 4
-
 rs = np.random.RandomState(123)
 
 
 class Dataset(object):
 
-    def __init__(self, ids, n, name='default',
+    def __init__(self, ids, n, scene_class, name='default',
                  max_examples=None, is_train=True, bound=10):
         self._ids = list(ids)
         self.name = name
@@ -27,15 +25,17 @@ class Dataset(object):
         if max_examples is not None:
             self._ids = self._ids[:max_examples]
 
-        filename = 'data_synthia.hdf5'
+        filename = 'data_{}.hdf5'.format(scene_class)
 
-        file = osp.join(__PATH__, filename)
+        file = osp.join('./datasets/{}'.format(scene_class), filename)
         log.info("Reading %s ...", file)
 
         self.data = h5py.File(file, 'r')
         log.info("Reading Done: %s", file)
 
     def get_data(self, id, order=None):
+        if isinstance(id, bytes):
+            id = id.decode("utf-8")
         # preprocessing and data augmentation
         image = self.data[id]['image'].value/255.*2 - 1
         pose = np.expand_dims(self.data[id]['pose'].value, -1)
@@ -60,6 +60,8 @@ class Dataset(object):
         return image, pose
 
     def get_data_by_id(self, id_list):
+        if isinstance(ids_list[0], bytes):
+            self._ids = [id.decode("utf-8") for id in ids_list]
         # preprocessing and data augmentation
         # taget idx: [diff ang, diff evelation]
         id = id_list[0]
@@ -91,6 +93,8 @@ class Dataset(object):
         return image, pose
 
     def get_data_by_target(self, id_input, target_idx):
+        if isinstance(id_input, bytes):
+            id_input = id_input.decode("utf-8")
         # preprocessing and data augmentation
         input_image = self.data[id_input]['image'].value/255.*2 - 1
         input_pose = np.expand_dims(self.data[id_input]['pose'].value, -1)
@@ -125,23 +129,23 @@ class Dataset(object):
         )
 
 
-def create_default_splits(n, is_train=True, bound=10):
-    ids_train, ids_test = all_ids()
+def create_default_splits(n, scene_class, is_train=True, bound=10):
+    ids_train, ids_test = all_ids(scene_class)
 
-    dataset_train = Dataset(ids_train, n, name='train', is_train=is_train,
-                            bound=bound)
-    dataset_test = Dataset(ids_test, n, name='test', is_train=is_train,
-                           bound=bound)
+    dataset_train = Dataset(ids_train, n, scene_class,
+                            name='train', is_train=is_train, bound=bound)
+    dataset_test = Dataset(ids_test, n, scene_class,
+                           name='test', is_train=is_train, bound=bound)
     return dataset_train, dataset_test
 
 
-def all_ids():
+def all_ids(scene_class):
 
-    with open(osp.join(__PATH__, 'id_train.txt'), 'r') as fp:
+    with open(osp.join('./datasets/{}'.format(scene_class), 'id_train.txt'), 'r') as fp:
         ids_train = [s.strip() for s in fp.readlines() if s]
     rs.shuffle(ids_train)
 
-    with open(osp.join(__PATH__, 'id_test.txt'), 'r') as fp:
+    with open(osp.join('./datasets/{}'.format(scene_class), 'id_test.txt'), 'r') as fp:
         ids_test = [s.strip() for s in fp.readlines() if s]
     rs.shuffle(ids_test)
 

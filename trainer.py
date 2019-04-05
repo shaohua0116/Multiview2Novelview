@@ -347,24 +347,15 @@ def main():
                         help='gradually learn each scale from coarse to fine')
     config = parser.parse_args()
 
-    if config.dataset == 'car':
-        import datasets.shapenet_car as dataset
-    elif config.dataset == 'chair':
-        import datasets.shapenet_chair as dataset
-    elif config.dataset == 'kitti':
-        import datasets.kitti as dataset
-    elif config.dataset == 'synthia':
-        import datasets.synthia as dataset
-    else:
-        raise ValueError(config.dataset)
-
-    if 'car' in config.dataset or 'chair' in config.dataset:
+    if config.dataset in ['car', 'chair']:
         config.dataset_type = 'object'
-    else:
+        import datasets.object_loader as dataset
+    elif config.dataset in ['kitti', 'synthia']:
         config.dataset_type = 'scene'
+        import datasets.scene_loader as dataset
 
     dataset_train, dataset_test = \
-        dataset.create_default_splits(config.num_input)
+        dataset.create_default_splits(config.num_input, config.dataset)
     image, pose = dataset_train.get_data(dataset_train.ids[0])
 
     config.data_info = np.concatenate([np.asarray(image.shape), np.asarray(pose.shape)])

@@ -16,7 +16,7 @@ rs = np.random.RandomState(123)
 
 class Dataset(object):
 
-    def __init__(self, ids, n, name='default',
+    def __init__(self, ids, n, object_class, name='default',
                  max_examples=None, is_train=True):
         self._ids = list(ids)
         self.name = name
@@ -27,7 +27,7 @@ class Dataset(object):
         if max_examples is not None:
             self._ids = self._ids[:max_examples]
 
-        filename = 'data_car.hdf5'
+        filename = 'data_{}.hdf5'.format(object_class)
 
         file = osp.join(__PATH__, filename)
         log.info("Reading %s ...", file)
@@ -36,6 +36,8 @@ class Dataset(object):
         log.info("Reading Done: %s", file)
 
     def get_data(self, id):
+        if isinstance(id, bytes):
+            id = id.decode("utf-8")
         # preprocessing and data augmentation
         image = 1 - self.data[id]['image'].value/255.*2
         pose = np.expand_dims(self.data[id]['pose'].value, -1)
@@ -65,6 +67,8 @@ class Dataset(object):
         return image, pose_one_hot
 
     def get_data_by_id(self, id_list):
+        if isinstance(ids_list[0], bytes):
+            self._ids = [id.decode("utf-8") for id in ids_list]
         # preprocessing and data augmentation
         # taget idx: [diff ang, diff evelation]
         id = id_list[0]
@@ -101,21 +105,23 @@ class Dataset(object):
         )
 
 
-def create_default_splits(n, is_train=True):
-    ids_train, ids_test = all_ids()
+def create_default_splits(n, object_class, is_train=True):
+    ids_train, ids_test = all_ids(object_class)
 
-    dataset_train = Dataset(ids_train, n, name='train', is_train=is_train)
-    dataset_test = Dataset(ids_test, n, name='test', is_train=is_train)
+    dataset_train = Dataset(ids_train, n, object_class, 
+                            name='train', is_train=is_train)
+    dataset_test = Dataset(ids_test, n, object_class,
+                           name='test', is_train=is_train)
     return dataset_train, dataset_test
 
 
-def all_ids():
+def all_ids(object_class):
 
-    with open(osp.join(__PATH__, 'id_car_train.txt'), 'r') as fp:
+    with open(osp.join(__PATH__, 'id_{}_train.txt'.format(object_class)), 'r') as fp:
         ids_train = [s.strip() for s in fp.readlines() if s]
     rs.shuffle(ids_train)
 
-    with open(osp.join(__PATH__, 'id_car_test.txt'), 'r') as fp:
+    with open(osp.join(__PATH__, 'id_{}_test.txt'.format(object_class)), 'r') as fp:
         ids_test = [s.strip() for s in fp.readlines() if s]
     rs.shuffle(ids_test)
 
