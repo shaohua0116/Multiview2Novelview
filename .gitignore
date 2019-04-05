@@ -2,3 +2,5 @@
 *sw[po]
 *.pyc
 .ropeproject/
+datasets/
+train_dir/
