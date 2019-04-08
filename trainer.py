@@ -300,7 +300,7 @@ def main():
     parser.add_argument('--write_summary_step', type=int, default=100,
                         help='the frequency of writing TensorBoard summaries')
     # Learning
-    parser.add_argument('--max_steps', type=int, default=10000000,
+    parser.add_argument('--max_steps', type=int, default=1000000,
                         help='the max training iterations')
     parser.add_argument('--learning_rate_p', type=float, default=5e-5,
                         help='the learning rate of the pixel module')
@@ -331,7 +331,7 @@ def main():
     # GAN
     parser.add_argument('--gan_type', type=str, default='ls', choices=['ls', 'normal'],
                         help='the type of GAN losses such as LS-GAN, WGAN, etc')
-    parser.add_argument('--gan_start_step', type=int, default=5e5,
+    parser.add_argument('--gan_start_step', type=int, default=300000,
                         help='start to optimize the GAN loss when the model is stable')
     parser.add_argument('--update_rate', type=int, default=1,
                         help='update G more frequently than D')
