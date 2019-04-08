@@ -1,3 +1,8 @@
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/multi-view-to-novel-view-synthesizing-novel-1/novel-view-synthesis-kitti-novel-view)](https://paperswithcode.com/sota/novel-view-synthesis-kitti-novel-view?p=multi-view-to-novel-view-synthesizing-novel-1)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/multi-view-to-novel-view-synthesizing-novel-1/novel-view-synthesis-shapenet-car)](https://paperswithcode.com/sota/novel-view-synthesis-shapenet-car?p=multi-view-to-novel-view-synthesizing-novel-1)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/multi-view-to-novel-view-synthesizing-novel-1/novel-view-synthesis-shapenet-chair)](https://paperswithcode.com/sota/novel-view-synthesis-shapenet-chair?p=multi-view-to-novel-view-synthesizing-novel-1)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/multi-view-to-novel-view-synthesizing-novel-1/novel-view-synthesis-synthia-novel-view)](https://paperswithcode.com/sota/novel-view-synthesis-synthia-novel-view?p=multi-view-to-novel-view-synthesizing-novel-1)
+
 # Multi-view to Novel view: <br/>Synthesizing Novel Views with Self-Learned Confidence 
 
 ## Descriptions
