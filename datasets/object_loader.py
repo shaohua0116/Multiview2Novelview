@@ -41,7 +41,6 @@ class Dataset(object):
         # preprocessing and data augmentation
         image = 1 - self.data[id]['image'].value/255.*2
         pose = np.expand_dims(self.data[id]['pose'].value, -1)
-        mask = 1 - 1 * (np.sum(image, axis=-1) == 0)
         idx = np.concatenate(
             (np.linspace(-self.bound, 0, self.bound+1)[:-1],
              np.linspace(0, self.bound, self.bound+1)[1:])
@@ -62,19 +61,16 @@ class Dataset(object):
         for i in range(pose.shape[-1]):
             pose_one_hot[pose[0, i], i] = 1
             pose_one_hot[int(360/ang_interval)+int(pose[1, i]/10), i] = 1
-        # concat foreground mask
-        image = np.concatenate((image, np.expand_dims(mask, -1)), axis=-1)
         return image, pose_one_hot
 
     def get_data_by_id(self, id_list):
-        if isinstance(ids_list[0], bytes):
-            self._ids = [id.decode("utf-8") for id in ids_list]
+        if isinstance(id_list[0], bytes):
+            id_list = [id.decode("utf-8") for id in id_list]
         # preprocessing and data augmentation
         # taget idx: [diff ang, diff evelation]
         id = id_list[0]
         image = 1 - self.data[id]['image'].value/255.*2
         pose = np.expand_dims(self.data[id]['pose'].value, -1)
-        mask = 1 - 1 * (np.sum(image, axis=-1) == 0)
 
         for id_source in id_list[1:]:
             if not pose.shape[-1] > self.n:
@@ -87,8 +83,6 @@ class Dataset(object):
         for i in range(pose.shape[-1]):
             pose_one_hot[pose[0, i], i] = 1
             pose_one_hot[int(360/ang_interval)+int(pose[1, i]/10), i] = 1
-        # concat foreground mask
-        image = np.concatenate((image, np.expand_dims(mask, -1)), axis=-1)
         return image, pose_one_hot
 
     @property

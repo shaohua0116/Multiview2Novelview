@@ -60,8 +60,8 @@ class Dataset(object):
         return image, pose
 
     def get_data_by_id(self, id_list):
-        if isinstance(ids_list[0], bytes):
-            self._ids = [id.decode("utf-8") for id in ids_list]
+        if isinstance(id_list[0], bytes):
+            id_list = [id.decode("utf-8") for id in id_list]
         # preprocessing and data augmentation
         # taget idx: [diff ang, diff evelation]
         id = id_list[0]

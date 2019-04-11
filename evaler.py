@@ -2,25 +2,23 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
+import time
 import os
-import os.path as osp
-
-from util import log
-from input_ops import create_input_ops
-from model import Model
+import numpy as np
+import imageio
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
-import time
-import imageio
+
+from input_ops import create_input_ops
+from config import argparser
+from util import log
 
 
 class Evaler(object):
 
-    def __init__(self,
-                 config,
-                 dataset):
+    def __init__(self, config, model, dataset):
         self.config = config
+        self.model = model
         self.train_dir = config.train_dir
         log.info("self.train_dir = %s", self.train_dir)
 
@@ -32,9 +30,6 @@ class Evaler(object):
         _, self.batch = create_input_ops(dataset, self.batch_size,
                                          is_training=False,
                                          shuffle=False)
-
-        # --- create model ---
-        self.model = Model(config, is_train=False)
 
         self.global_step = tf.contrib.framework.get_or_create_global_step(graph=None)
         self.step_op = tf.no_op(name='step_no_op')
@@ -120,7 +115,7 @@ class Evaler(object):
                                     img_name = '{}_target_{}_source_{}_{}.png'.format(
                                         model_name, target_id, source_id, img_key)
                                     if self.config.plot_image:
-                                        imageio.imwrite(osp.join(
+                                        imageio.imwrite(os.path.join(
                                             self.config.output_dir, img_name),
                                             img[img_key][i])
                         else:
@@ -130,10 +125,11 @@ class Evaler(object):
                     time_all += step_time
 
                     s += 1
+                    print(s)
                     if use_test_id_list:
                         continue_evaluate = s < len(self.id_list)/self.batch_size
                     else:
-                        continue_evaluate = s < self.config.max_steps
+                        continue_evaluate = s < self.config.max_eval_steps
 
                     # report loss
                     if not self.config.quiet:
@@ -198,7 +194,7 @@ class Evaler(object):
         log_fn = (is_train and log.info or log.infov)
         if self.config.data_id_list is None:
             data_str = 'Total datapoint: {}'.format(
-                self.batch_size*self.config.max_steps)
+                self.batch_size*self.config.max_eval_steps)
         else:
             data_str = 'Total datapoint: {} from {}'.format(
                 len(self.id_list), self.config.data_id_list)
@@ -230,6 +226,7 @@ class Evaler(object):
 
 
 def main():
+    """
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch_size', type=int, default=8)
@@ -290,8 +287,11 @@ def main():
     image, pose = dataset_test.get_data(dataset_test.ids[0])
 
     config.data_info = np.concatenate([np.asarray(image.shape), np.asarray(pose.shape)])
+    """
 
-    evaler = Evaler(config, dataset_test)
+    config, model, _, dataset_test = argparser(is_train=False)
+
+    evaler = Evaler(config, model, dataset_test)
 
     log.warning("dataset: %s", config.dataset)
     evaler.eval_run()

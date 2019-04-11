@@ -2,27 +2,23 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from six.moves import xrange
-
-from util import log
-from pprint import pprint
-
-from input_ops import create_input_ops
-from model import Model
-import os
 import time
+import os
+import numpy as np
+from six.moves import xrange
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
-import numpy as np
+
+from input_ops import create_input_ops
+from config import argparser
+from util import log
 
 
 class Trainer(object):
 
-    def __init__(self,
-                 config,
-                 dataset,
-                 dataset_test):
+    def __init__(self, config, model, dataset, dataset_test):
         self.config = config
+        self.model = model
         hyper_parameter_str = 'bs_{}_lr_flow_{}_pixel_{}_d_{}'.format(
             config.batch_size,
             config.learning_rate_f,
@@ -48,9 +44,6 @@ class Trainer(object):
             dataset, self.batch_size, is_training=True)
         _, self.batch_test = create_input_ops(
             dataset_test, self.batch_size, is_training=False)
-
-        # --- create model ---
-        self.model = Model(config)
 
         # --- optimizer ---
         self.global_step = tf.contrib.framework.get_or_create_global_step(graph=None)
@@ -169,7 +162,7 @@ class Trainer(object):
 
     def train(self):
         log.infov("Training Starts!")
-        pprint(self.batch_train)
+        print(self.batch_train)
 
         max_steps = self.max_steps
         ckpt_save_step = self.ckpt_save_step
@@ -268,6 +261,7 @@ class Trainer(object):
 
 
 def main():
+    """
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch_size', type=int, default=8,
@@ -359,8 +353,11 @@ def main():
     image, pose = dataset_train.get_data(dataset_train.ids[0])
 
     config.data_info = np.concatenate([np.asarray(image.shape), np.asarray(pose.shape)])
+    """
+    
+    config, model, dataset_train, dataset_test = argparser(is_train=False)
 
-    trainer = Trainer(config, dataset_train, dataset_test)
+    trainer = Trainer(config, model, dataset_train, dataset_test)
 
     log.warning("dataset: %s", config.dataset)
     trainer.train()
