@@ -206,7 +206,6 @@ class Model(object):
 
                         with tf.variable_scope('Pixel'):
                             if i == num_deconv_layer-1:
-                                # log.error('pixel output')
                                 pixel_output = deconv2d(_p, [int(num_channel[i]/2), 3, 1],
                                                         is_train, info=not reuse,
                                                         norm=self.norm_type,
@@ -225,15 +224,6 @@ class Model(object):
                             pixel_mask_list.append(pixel_mask)
                             pixel_output_list.append(pixel_output)
 
-                        """
-                        if not reuse: 
-                            log.infov('flow_output_img: {}, pixel output: {}, '
-                                      'flow_feature_map: {}, pixel_feature_map: {}'.format(
-                                                    flow_output_img.get_shape().as_list(),
-                                                    pixel_output.get_shape().as_list(),
-                                                    _f.get_shape().as_list(),
-                                                    _p.get_shape().as_list()))
-                        """
                         _f = tf.concat([_f, flow_output], axis=-1)
                         _p = tf.concat([_p, pixel_output], axis=-1)
                         if not reuse: log.info('flow_deconv{}_out_layer_concat {}'.format(
@@ -290,12 +280,10 @@ class Model(object):
         image_input_list = []
 
         for t in range(num_prior):
-            # log.infov('Input: {}'.format(t))
             encoder_pose_input = Pose_Encoder(input_pose[t], target_pose, reuse=t > 0)
 
             # Pixel Module {{{
             # ================
-            # if t == 0: log.error('Pixel Module')
             # Encoder
             pixel_encoder_all_output = Encoder(input_image[t],
                                                encoder_pose_input,
@@ -303,7 +291,6 @@ class Model(object):
                                                reuse=t > 0)
             # convlstm
             if t == 0:
-                # log.warn('Res Block Convlstm')
                 h_list = []
                 for s in range(self.num_convlstm_scale):
                     h_list_s = []
@@ -314,9 +301,6 @@ class Model(object):
             for s in range(self.num_convlstm_scale):
                 layer_idx = len(pixel_encoder_all_output)-s-1
                 x = pixel_encoder_all_output[layer_idx]
-                if t == 0:
-                    log.info('scale: {} size {}'.format(
-                        s+1, x.get_shape().as_list()))
 
                 for i in range(self.num_convlstm_block):
                     x, h_list[s][i] = resnet_block_convlstm(
@@ -329,7 +313,6 @@ class Model(object):
 
             # Flow Module {{{
             # ================
-            # if t == 0: log.error('Flow Module')
             # Encoder
             flow_encoder_all_output = Encoder(input_image[t],
                                               encoder_pose_input,
@@ -375,9 +358,7 @@ class Model(object):
         for t in range(num_prior):
             for s in range(num_scale):
                 # produce mask by softmax
-                # log.infov('t={}, s={}'.format(t, s))
                 idx = [v * num_scale + s for v in range(num_prior)][:t+1]
-                # log.infov('idx {}'.format(idx))
                 all_mask = tf.concat([
                     tf.expand_dims(pixel_mask_list[t*num_scale+s], axis=-1),
                     tf.stack([flow_mask_list[v] for v in idx], axis=-1)], axis=-1)
@@ -387,23 +368,15 @@ class Model(object):
                 flow_only_mask = tf.nn.softmax(flow_only_mask)
                 all_mask_list.append(all_mask)
                 flow_only_mask_list.append(flow_only_mask)
-                # log.infov('shape of all_mask[{}]: {}'.format(
-                #     s, all_mask.get_shape().as_list()))
 
-                # log.infov('shape of flow_only_mask[{}]: {}'.format(
-                #     s, flow_only_mask.get_shape().as_list()))
                 # apply mask
                 all_image = tf.concat([
                     tf.expand_dims(pixel_output_list[t*num_scale+s], axis=-1),
                     tf.stack([flow_output_list[v] for v in idx], axis=-1)], axis=-1)
-                # log.infov('shape of all_image[{}]: {}'.format(
-                #     s, all_image.get_shape().as_list()))
                 aggregate_output = tf.reduce_sum(tf.expand_dims(all_mask, axis=-2) * all_image, axis=-1)
                 aggregate_output_list.append(aggregate_output)
 
                 flow_only_image = all_image[:, :, :, :, 1:]
-                # log.infov('shape of flow_only_image[{}]: {}'.format(
-                #     s, flow_only_image.get_shape().as_list()))
                 aggregate_flow_only_output = tf.reduce_sum(
                     tf.expand_dims(flow_only_mask, axis=-2) * flow_only_image, axis=-1)
                 aggregate_flow_only_output_list.append(aggregate_flow_only_output)
@@ -418,12 +391,10 @@ class Model(object):
             for s in range(num_scale):
                 pixel_softmax_mask_list.append(
                     all_mask_list[t*num_scale+s][:, :, :, 0])
-                # log.error('pixel softmax mask collect from all_mask_list[{}]'.format(t*num_scale+s))
         for s in range(num_scale):
             for t in range(num_prior):
                 flow_softmax_mask_list.append(
                     all_mask_list[num_prior*num_scale-s-1][:, :, :, t+1])
-                # log.error('flow softmax mask collect from all_mask_list[{}][: , :, :, {}]'.format(num_prior*num_scale-s-1, t+1))
         # }}}
 
         # Build loss and self.accuracy {{{
@@ -508,7 +479,6 @@ class Model(object):
         self.eval_loss = {}
 
         def build_loss(output_list, weights, loss_name, scale=False):
-            # log.warn('Build {} loss: len(output_list): {}'.format(loss_name, len(output_list)))
             total_loss = 0
             # l1 loss
             l1_loss = 0
@@ -531,8 +501,6 @@ class Model(object):
             idx = [v * num_scale + num_scale - 1 for v in range(num_prior)]
             if loss_name == 'flow':
                 all_final_scale_pred = tf.stack([output_list[v] for v in idx], axis=-1)
-                # log.error('Flow all final scale pred: {}'.format(
-                #     all_final_scale_pred.get_shape()))
                 for i in range(all_final_scale_pred.shape[-1]):
                     self.eval_loss['{}_avg_report_loss_{}'.format(loss_name, i)] = \
                         tf.reduce_mean(tf.abs(all_final_scale_pred[:, :, :, :, :i+1] -
@@ -574,7 +542,6 @@ class Model(object):
             output_list, mask_list, weights,
             loss_name, scale=False, regularizer_weight=1e-2
         ):
-            # log.warn('Build {} loss: len(output_list): {}'.format(loss_name, len(output_list)))
             # l1 loss
             l1_loss = 0
             for i in range(len(output_list)):
@@ -588,7 +555,6 @@ class Model(object):
                         target_image,
                         [int(img.get_shape()[1]), int(img.get_shape()[2])])
                 ), axis=-1)
-                # log.error('loss map shape: {}'.format(loss_map.get_shape().as_list()))
                 l1_loss += tf.reduce_mean(loss_map * normalized_mask) * current_weight / \
                     (int(img.get_shape()[1]) * int(img.get_shape()[2])) * regularizer_weight
             l1_loss = l1_loss / len(output_list)
@@ -621,7 +587,6 @@ class Model(object):
         all_output_stack_ssim = []
         self.eval_loss['best_of_pixel_of_flow_report_loss'] = all_output_stack_loss_min
         for i in range(all_output_stack.get_shape().as_list()[-1]):
-            # log.error(i)
             if self.dataset_type == 'object':
                 ssim = tf_ssim(1-(all_output_stack[:, :, :, :, i]+1)/2,
                                1-(target_image+1)/2, mean_metric=False)
@@ -693,7 +658,6 @@ class Model(object):
                 [self.input_height, self.input_width])
             scale_idx = i % num_scale - num_scale
             prior_idx = int(i / num_scale)
-            # log.error('scale: {}, prior: {}'.format(scale_idx, prior_idx))
             flow_mask_vis = tf.image.resize_nearest_neighbor(
                 tf.tile(tf.expand_dims(
                     all_mask_list[scale_idx][:, :, :, prior_idx+1], axis=-1), [1, 1, 1, c]),

@@ -55,8 +55,6 @@ class Dataset(object):
                 if pose.shape[-1] == self.n + 1:
                     valid = True
 
-        dummy_mask = np.expand_dims(0 * (np.sum(image, axis=-1)), axis=-1)
-        image = np.concatenate((image, dummy_mask), axis=-1)
         return image, pose
 
     def get_data_by_id(self, id_list):
@@ -74,8 +72,6 @@ class Dataset(object):
                 pose_tmp = np.expand_dims(self.data[id_source]['pose'].value, -1)
                 image = np.concatenate((image, image_tmp), axis=-1)
                 pose = np.concatenate((pose, pose_tmp), axis=-1)
-        dummy_mask = np.expand_dims(0 * (np.sum(image, axis=-1)), axis=-1)
-        image = np.concatenate((image, dummy_mask), axis=-1)
         return image, pose
 
     def get_data_by_id_tuple(self, id_target, id_input):
@@ -86,8 +82,6 @@ class Dataset(object):
         image_input = self.data[id_input]['image'].value/255.*2 - 1
         pose_input = np.expand_dims(self.data[id_input]['pose'].value, 0)
 
-        dummy_mask = np.expand_dims(0 * (np.sum(image_target, axis=-1)), axis=-1)
-        image = np.concatenate((image_target, image_input, dummy_mask), axis=-1)
         pose = np.concatenate((pose_target, pose_input), axis=-1)
 
         return image, pose
@@ -109,8 +103,6 @@ class Dataset(object):
             target_image = input_image
             target_pose = input_pose
 
-        dummy_mask = np.expand_dims(0 * (np.sum(target_image, axis=-1)), axis=-1)
-        image = np.concatenate((target_image, input_image, dummy_mask), axis=-1)
         pose = np.concatenate((target_pose, input_pose), axis=-1)
 
         return image, pose, id_target

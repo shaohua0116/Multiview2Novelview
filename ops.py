@@ -28,32 +28,6 @@ def huber_loss(labels, predictions, delta=1.0):
     return tf.where(condition, small_res, large_res)
 
 
-def mean_pixel_l1_loss(img1, img2):
-    # img: [bs, h, w, c]
-    return tf.reduce_mean(tf.reduce_sum(tf.abs(img1 - img2), axis=-1))
-
-
-def local_moment_loss(pred, gt, ksz=7, kst=4):
-    with tf.name_scope('local_moment_loss'):
-        local_patch = tf.ones((ksz, ksz, 1, 1))
-
-        # Normalize by kernel size
-        pr_mean = tf.concat([tf.nn.conv2d(x, local_patch, strides=[1, kst, kst, 1], padding='VALID') for x in tf.split(pred, 3, axis=3)], axis=3)
-        pr_var = tf.concat([tf.nn.conv2d(tf.square(x), local_patch, strides=[1, kst, kst, 1], padding='VALID') for x in tf.split(pred, 3, axis=3)], axis=3)
-        pr_var = (pr_var - tf.square(pr_mean)/(ksz**2)) / (ksz ** 2)
-        pr_mean = pr_mean / (ksz ** 2)
-
-        gt_mean = tf.concat([tf.nn.conv2d(x, local_patch, strides=[1, kst, kst, 1], padding='VALID') for x in tf.split(gt, 3, axis=3)], axis=3)
-        gt_var = tf.concat([tf.nn.conv2d(tf.square(x), local_patch, strides=[1, kst, kst, 1], padding='VALID') for x in tf.split(gt, 3, axis=3)], axis=3)
-        gt_var = (gt_var - tf.square(gt_mean)/(ksz**2)) / (ksz ** 2)
-        gt_mean = gt_mean / (ksz ** 2)
-
-        # scaling by local patch size
-        local_mean_loss = tf.reduce_mean(tf.abs(pr_mean - gt_mean))
-        local_var_loss = tf.reduce_mean(tf.abs(pr_var - gt_var))
-    return local_mean_loss + local_var_loss
-
-
 def instance_norm(input, is_training):
     """ instance normalization """
     with tf.variable_scope('instance_norm'):
@@ -160,23 +134,6 @@ def nn_deconv2d(input, deconv_info, is_train, name="nn_deconv2d",
                    norm=False, activation_fn=None)
         _ = bn_act(_, is_train, norm=norm, activation_fn=activation_fn)
         if info: log.info('{} {}'.format(name, _.get_shape().as_list()))
-    return _
-
-
-def transpose_deconv3d(input, deconv_info, is_train=True, name="deconv3d",
-                       stddev=0.01, activation_fn=tf.nn.relu, norm='batch'):
-    with tf.variable_scope(name):
-        output_shape = deconv_info[0]
-        k = deconv_info[1]
-        s = deconv_info[2]
-        _ = tf.layers.conv3d_transpose(
-            input,
-            filters=output_shape,
-            kernel_initializer=tf.truncated_normal_initializer(stddev=stddev),
-            bias_initializer=tf.zeros_initializer(),
-            kernel_size=[k, k, k], strides=[s, s, s], padding='SAME'
-        )
-        _ = bn_act(_, is_train, norm=norm, activation_fn=activation_fn)
     return _
 
 

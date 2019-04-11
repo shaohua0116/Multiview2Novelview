@@ -225,68 +225,6 @@ class Evaler(object):
 
 
 def main():
-    """
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--batch_size', type=int, default=8)
-    parser.add_argument('--dataset', type=str, default='car', choices=[
-        'car', 'chair', 'kitti', 'synthia'])
-    parser.add_argument('--num_input', type=int, default=2)
-    # checkpoint
-    parser.add_argument('--train_dir', type=str, default=None,
-                        help='load the latest checkpoint from a directory')
-    parser.add_argument('--checkpoint', type=str, default=None,
-                        help='specify a checkpoint')
-    parser.add_argument('--max_steps', type=int, default=500,
-                        help='max steps of randomly sampling testing tuple.'
-                             'do not need to specify this when a data list is given')
-    parser.add_argument('--data_id_list', type=str, default=None,
-                        help='specify a list of data point that you want to evaluate')
-    # task type
-    parser.add_argument('--loss', action='store_true', default=False,
-                        help='report the loss')
-    parser.add_argument('--write_summary', action='store_true', default=False,
-                        help='write the summary of this evaluation as a text file')
-    parser.add_argument('--plot_image', action='store_true', default=False,
-                        help='rendered predicted images')
-    # write summary file
-    parser.add_argument('--quiet', action='store_true', default=False)
-    parser.add_argument('--summary_file', type=str, default='report.txt',
-                        help='the path to the summary file')
-    parser.add_argument('--output_dir', type=str,
-                        help='the output directory of plotted images')
-    # Learning
-    parser.add_argument('--local_confidence_weight', type=float, default=1e-2)
-    # Architecture
-    parser.add_argument('--num_res_block_pixel', type=int, default=0)
-    parser.add_argument('--num_res_block_flow', type=int, default=4)
-    parser.add_argument('--num_dis_conv_layer', type=int, default=5)
-    parser.add_argument('--num_conv_layer', type=int, default=5)
-    parser.add_argument('--num_convlstm_block', type=int, default=2)
-    parser.add_argument('--num_convlstm_scale', type=int, default=3)
-    parser.add_argument('--norm_type', type=str, default='None',
-                        choices=['batch', 'instance', 'None'])
-    # GAN
-    parser.add_argument('--gan_type', type=str, default='ls', choices=['ls', 'normal'])
-    # Multi-scale prediction
-    parser.add_argument('--num_scale', type=int, default=1)
-    parser.add_argument('--moving_weight', type=str, default='uniform',
-                        choices=['uniform', 'shift', 'step'])
-    config = parser.parse_args()
-
-    if config.dataset in ['car', 'chair']:
-        config.dataset_type = 'object'
-        import datasets.object_loader as dataset
-    elif config.dataset in ['kitti', 'synthia']:
-        config.dataset_type = 'scene'
-        import datasets.scene_loader as dataset
-
-    _, dataset_test = \
-        dataset.create_default_splits(config.num_input, config.dataset)
-    image, pose = dataset_test.get_data(dataset_test.ids[0])
-
-    config.data_info = np.concatenate([np.asarray(image.shape), np.asarray(pose.shape)])
-    """
 
     config, model, _, dataset_test = argparser(is_train=False)
 
