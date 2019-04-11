@@ -125,7 +125,6 @@ class Evaler(object):
                     time_all += step_time
 
                     s += 1
-                    print(s)
                     if use_test_id_list:
                         continue_evaluate = s < len(self.id_list)/self.batch_size
                     else:
