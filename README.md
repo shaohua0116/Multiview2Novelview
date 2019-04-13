@@ -6,9 +6,9 @@
 # Multi-view to Novel view: <br/>Synthesizing Novel Views with Self-Learned Confidence 
 
 ## Descriptions
-This project is a TensorFlow implementation of [**Multi-view to Novel view: Synthesizing novel views with Self-Learned Confidence**](https://shaohua0116.github.io/Multiview2Novelview/), which is published in ECCV 2018. We provide codes, [datasets](https://github.com/shaohua0116/Multiview2Novelview#datasets), and [checkpoints](https://github.com/shaohua0116/Multiview2Novelview#checkpoints). 
+This project is a TensorFlow implementation of [**Multi-view to Novel view: Synthesizing Novel Views with Self-Learned Confidence**](https://shaohua0116.github.io/Multiview2Novelview/), which is published in [ECCV 2018](https://eccv2018.org/). We provide codes, [datasets](https://github.com/shaohua0116/Multiview2Novelview#datasets), and [checkpoints](https://github.com/shaohua0116/Multiview2Novelview#checkpoints). 
 
-In this work, we address the task of **multi-view novel view synthesis**, where we are interested in synthesizing a target image with an arbitrary camera pose from given source images. 
+In this work, we address the task of **multi-view novel view synthesis**, where we are interested in synthesizing a target image with an arbitrary camera pose from given source images. An illustration of the task is as follows.
 
 <p align="center">
     <img src="./asset/illustration.png" width="600"/>
@@ -21,8 +21,6 @@ We propose an end-to-end trainable framework that learns to exploit multiple vie
 </p>
 
 We evaluate our model on images rendered from 3D object models ([ShapeNet](https://www.shapenet.org/)) as well as real and synthesized scenes ([KITTI](http://www.cvlibs.net/datasets/kitti/) and [Synthia](http://synthia-dataset.net/)). We demonstrate that our model is able to achieve state-of-the-art results as well as progressively improve its predictions when more source images are available.
-
-\*This code is still being developed and subject to change.
 
 ## Prerequisites
 
@@ -66,6 +64,7 @@ All datasets are stored as HDF5 files, and the links are as follows. Each data p
 
 ## Usage
 After downloading the datasets, we can start to train models with the following command:
+
 ### Train
 ```bash
 $ python trainer.py  --batch_size 8 --dataset car --num_input 4
