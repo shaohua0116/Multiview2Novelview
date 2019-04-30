@@ -96,7 +96,7 @@ Launch Tensorboard and go to the specified port, you can see differernt losses i
 ### Test
 We can also evaluate trained models or the checkpoints provided by the authors with the following command:
 ```bash
-$ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_test.txt --loss [--train_dir /path/to/the/training/dir/ OR --checkpoint /path/to/the/trained/model] --write_summary --summary_file log_car.txt --plot_image --output_dir img_car
+$ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_random_elevation.txt [--train_dir /path/to/the/training/dir/ OR --checkpoint /path/to/the/trained/model] --loss True --write_summary True --summary_file log_car.txt --plot_image True --output_dir img_car
 ```
 - Selected arguments (see the `evaler.py` for more details)
     - Id list
