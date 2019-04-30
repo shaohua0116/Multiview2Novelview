@@ -103,10 +103,10 @@ $ python evaler.py --dataset car --data_id_list ./testing_tuple_lists/id_car_ran
         - --data_id_list: specify a list of data point that you want to evaluate
     - Task
         - --loss: report the loss
-        - --plot_image: rendered predicted images
+        - --write_summary: write the summary of this evaluation as a text file
+        - --plot_image: render synthesized images
     - Output
         - --quiet: only display the final report
-        - --write_summary: write the summary of this evaluation as a text file
         - --summary_file: the path to the summary file
         - --output_dir: the output dir of plotted images
 
