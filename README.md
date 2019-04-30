@@ -22,7 +22,7 @@ We propose an end-to-end trainable framework that learns to exploit multiple vie
 
 We evaluate our model on images rendered from 3D object models ([ShapeNet](https://www.shapenet.org/)) as well as real and synthesized scenes ([KITTI](http://www.cvlibs.net/datasets/kitti/) and [Synthia](http://synthia-dataset.net/)). We demonstrate that our model is able to achieve state-of-the-art results as well as progressively improve its predictions when more source images are available.
 
-A simpler novel view synthesis codebase can be found at [**Novel View Synthesis in TensorFlow**](https://github.com/shaohua0116/NovelViewSynthesis-TensorFlow), all the data loaders, as well as training/testing scripts, are well-configured, and you can just play with models.
+A simpler novel view synthesis codebase can be found at [**Novel View Synthesis in TensorFlow**](https://github.com/shaohua0116/NovelViewSynthesis-TensorFlow), where all the data loaders, as well as training/testing scripts, are well-configured, and you can just play with models.
 
 ## Prerequisites
 
