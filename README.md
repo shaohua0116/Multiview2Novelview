@@ -151,7 +151,7 @@ We provide checkpoints and evaluation report files of our models for all eooxper
 If you find this useful, please cite
 ```
 @inproceedings{sun2018multiview,
-  title={Multi-view to Novel View: Synthesizing Novel Views via Self-Learned Confidence},
+  title={Multi-view to Novel View: Synthesizing Novel Views with Self-Learned Confidence},
   author={Sun, Shao-Hua and Huh, Minyoung and Liao, Yuan-Hong and Zhang, Ning and Lim, Joseph J},
   booktitle={European Conference on Computer Vision},
   year={2018},
