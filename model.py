@@ -499,12 +499,13 @@ class Model(object):
 
             # Report testing loss
             idx = [v * num_scale + num_scale - 1 for v in range(num_prior)]
+            expand_dims_target = tf.expand_dims(target_image, axis=-1)
             if loss_name == 'flow':
                 all_final_scale_pred = tf.stack([output_list[v] for v in idx], axis=-1)
                 for i in range(all_final_scale_pred.shape[-1]):
                     self.eval_loss['{}_avg_report_loss_{}'.format(loss_name, i)] = \
                         tf.reduce_mean(tf.abs(all_final_scale_pred[:, :, :, :, :i+1] -
-                                              tf.expand_dims(target_image, axis=-1)))
+                                              expand_dims_target))
             else:
                 for i in idx:
                     if self.dataset_type == 'object':
